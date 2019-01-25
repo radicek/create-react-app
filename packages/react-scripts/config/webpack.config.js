@@ -373,6 +373,9 @@ module.exports = function(webpackEnv) {
                 ),
                 // @remove-on-eject-end
                 plugins: [
+                  // @fork-begin - Add babel-plugin-styled-components
+                  require.resolve('babel-plugin-styled-components'),
+                  // @fork-end
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
