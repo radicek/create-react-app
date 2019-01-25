@@ -46,6 +46,10 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
+// @fork-begin - Enable JSX compilation outside of /src
+const getSourcePaths = appPackageJson => require(appPackageJson).sourcePaths.map(path => resolveApp(path));
+// @fork-end
+
 const moduleFileExtensions = [
   'web.mjs',
   'mjs',
@@ -104,7 +108,9 @@ module.exports = {
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
   appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
+  // @fork-begin - Enable JSX compilation outside of /src
+  appSrc: [resolveApp('src'), ...getSourcePaths(resolveApp('package.json'))],
+  // @fork-end
   appTsConfig: resolveApp('tsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
